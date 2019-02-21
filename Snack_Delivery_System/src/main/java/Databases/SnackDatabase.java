@@ -1,22 +1,27 @@
 package Databases;
 
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Item.Snack;
 import Item.Student;
 
-public class StudentDatabase extends SQLProvider<Student> {
+public class SnackDatabase extends SQLProvider<Snack> {
+
+	private static final String Table_Name = "Snack";
 	
-	private static final String Table_Name = "Students";
+	public SnackDatabase() {
+		super();
+	}
+	
 	
 	@Override
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();
-			if(stat.execute("Create Table if not exsisted " + Table_Name +  " (id INTEGER(7) PRIMARY KEY, name varchar(40), location varchar(50) )")) {
+			if(stat.execute("Create Table if not exsisted " + Table_Name +  " (name varchar(40) PRIMARY KEY, price float, image BLOB )")) {
 				
 			}else {
 				System.out.println("Table Created");
@@ -24,40 +29,44 @@ public class StudentDatabase extends SQLProvider<Student> {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	@Override
-	public List<Student> viewAll() {
-		List<Student> Attributes = new ArrayList<Student>();
+	public List<Snack> viewAll() {
+		List<Snack> Items = new ArrayList<Snack>();
+		
 		try {
 			stat = con.createStatement();
-			String sql = "SELECT * FROM " +Table_Name;
+			String sql = "SELECT * FROM " +Table_Name ;
 			
 			res = stat.executeQuery(sql);
 			
 			while(res.next()) {
-				Student attribute = new Student();
-				attribute.setId(res.getInt(1));
-				attribute.setName(res.getString(2));
-				attribute.setLocation(res.getString(3));
+				Snack item = new Snack();
+				item.setName(res.getString(1));
+				item.setPrice(res.getFloat(2));
+				item.setImage(res.getString(3));
 				
-				Attributes.add(attribute);
+				Items.add(item);
+				
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
 			}
-		}catch(SQLException e) {
-			e.printStackTrace();
+		return Items;
 		}
 		
-		return Attributes;
-	}
+	
 
 	@Override
-	public Student show(int id) {
+	public Snack show(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int Update(Student Entity, int id) {
+	public int Update(Snack Entity , int id) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -75,13 +84,13 @@ public class StudentDatabase extends SQLProvider<Student> {
 	}
 
 	@Override
-	public int Add(Student Entity) {
-		String sql = "INSERT INTO "+Table_Name+ " (id, name, location) values (?, ?, ?)";
+	public int Add(Snack Entity) {
+		String sql = "INSERT INTO "+Table_Name+ " (name, price, image) values (?, ?, ?)";
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, Entity.getId());
-			st.setString(2, Entity.getName());
-			st.setString(3, Entity.getLocation());
+			st.setString(1, Entity.getName());
+			st.setFloat(2, Entity.getPrice());
+			st.setString(3, Entity.getImage());
 			return st.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

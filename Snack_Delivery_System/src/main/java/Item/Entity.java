@@ -1,4 +1,4 @@
-package Snack_Delivery_System;
+package Item;
 
 import java.io.Serializable;
 import java.util.Date;

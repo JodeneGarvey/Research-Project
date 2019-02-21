@@ -1,4 +1,4 @@
-package Snack_Delivery_System;
+package Item;
 
 public class Snack {
 
@@ -6,7 +6,9 @@ public class Snack {
 	private float price;
 	private String image;
 	
-	
+	public Snack() {
+		this("",0.0f,"");
+	}
 	public Snack(String name, float price, String image) {
 		super();
 		this.name = name;

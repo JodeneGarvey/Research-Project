@@ -1,4 +1,4 @@
-package Snack_Delivery_System;
+package Item;
 
 public class Student {
 
@@ -11,6 +11,10 @@ public class Student {
 		this.id = id;
 		this.name = name;
 		this.location = location;
+	}
+	
+	public Student() {
+		this(0,"","");
 	}
 
 	public int getId() {

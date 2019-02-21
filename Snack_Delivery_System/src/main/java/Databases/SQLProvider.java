@@ -9,19 +9,21 @@ import java.util.List;
 
 public abstract class SQLProvider<D> {
 
+	
 	protected Connection con = null;
 	protected Statement stat = null;
 	protected ResultSet res = null;
 	
-	private static final String Driver = "org.sqlite.JBDC";
-	
+	private static final String Driver = "com.mysql.jbdc.Driver";
+	static final String username = "John";
+	static final String password = "pass";
 	
 	public SQLProvider() {
 		try {
 			Class.forName(Driver).newInstance();
 			
-			String url = "jbdc:sqlite:John's_Shop.sqlite";
-			con = DriverManager.getConnection(url);
+			String url = "jbdc:mysql://localhost:3306/Jonh's_Shop";
+			con = DriverManager.getConnection(url,"username","password");
 			
 			createDatabase();
 			
