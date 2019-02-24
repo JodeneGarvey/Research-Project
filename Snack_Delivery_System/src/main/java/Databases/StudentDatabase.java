@@ -8,7 +8,7 @@ import java.util.List;
 
 import Item.Student;
 
-public class StudentDatabase extends SQLProvider<Student> {
+public abstract class StudentDatabase extends SQLProvider<Student> {
 	
 	private static final String Table_Name = "Students";
 	
@@ -52,27 +52,116 @@ public class StudentDatabase extends SQLProvider<Student> {
 
 	@Override
 	public Student show(int id) {
-		// TODO Auto-generated method stub
+		String search = "SELECT id,name FROM +Table_Name WHERE id = ? ";
+		try {
+			res = stat.executeQuery(search);
+			if(res.next()) {
+				do {
+					System.out.println(res.getInt(1)+","+res.getString(2)+","+res.getString(3));
+				}while(res.next());
+			}else {
+				System.out.println("Record not Found");
+			}
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
 	@Override
 	public int Update(Student Entity, int id) {
-		// TODO Auto-generated method stub
+		String update ="UPDATE +Table_Name WHERE id = ? ";
+		try {
+			stat.executeQuery(update);
+			
+			update = "SELECT id, name, location FROM +Table_Name";
+			res = stat.executeQuery(update);
+			while(res.next()) {
+				res.getInt(id);
+				String name = res.getString(2);
+				String location = res.getString(3);
+				
+				System.out.println("Student ID: " +id);
+				System.out.println("Student Name: " +name);
+				System.out.println("Student Location: " +location);
+			}
+			res.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(stat!=null) {
+					con.close();
+				}
+			}catch(SQLException e) {
+				
+			}try {
+				if(con!=null) {
+					con.close();
+				}
+				
+				}catch(SQLException e) {
+					e.printStackTrace();
+			}
+		}
+		System.out.println("Record Updated");
 		return 0;
 	}
+		
+	
 
 	@Override
 	public int Delete(int id) {
-		// TODO Auto-generated method stub
+		String delete = "DELETE FROM +Table_Name WHERE id = ?";
+		try {
+			stat.executeQuery(delete);
+			
+			
+			delete = "SELECT id,name,location FROM +Table_Name";
+			
+			res = stat.executeQuery(delete);
+			while(res.next()) {
+				res.getInt(id);
+				String name = res.getString(2);
+				String location = res.getString(3);
+				
+				System.out.println("Student ID: " +id);
+				System.out.println("Student Name: " +name);
+				System.out.println("Student Location: " +location);
+			}
+			res.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(stat!=null) {
+					con.close();
+				}
+			}catch(SQLException e) {
+				
+			}try {
+				if(con!=null) {
+					con.close();
+				}
+				
+				}catch(SQLException e) {
+					e.printStackTrace();
+			}
+		}
+		System.out.println("Record Deleted");
 		return 0;
+			
 	}
-
-	@Override
-	public int deleteMultiple(int[] ids) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		
+		
 
 	@Override
 	public int Add(Student Entity) {

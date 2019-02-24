@@ -51,8 +51,6 @@ public abstract class SQLProvider<D> {
 	
 	abstract public int Delete(int id);
 	
-	abstract public int deleteMultiple(int[] ids);
-	
 	abstract public int Add(D Entity);
 	
 	
