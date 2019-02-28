@@ -14,7 +14,7 @@ public abstract class SQLProvider<D> {
 	protected Statement stat = null;
 	protected ResultSet res = null;
 	
-	private static final String Driver = "com.mysql.jbdc.Driver";
+	private static final String Driver = "com.microsoft.sqlserver.jbdc.SQLServerDriver";
 	static final String username = "John";
 	static final String password = "pass";
 	
@@ -22,8 +22,8 @@ public abstract class SQLProvider<D> {
 		try {
 			Class.forName(Driver).newInstance();
 			
-			String url = "jbdc:mysql://localhost:3306/Jonh's_Shop";
-			con = DriverManager.getConnection(url,"username","password");
+			String url = "jbdc:sqlserver://localhost:1433;databaseName=Shopdb";
+			con = DriverManager.getConnection(url);
 			
 			createDatabase();
 			

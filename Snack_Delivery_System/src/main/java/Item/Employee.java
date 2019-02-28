@@ -53,7 +53,6 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Employee [Employee ID= " +id+ "Username= " +username+ ", Password= "+ password +" ]";
 	}
 	
