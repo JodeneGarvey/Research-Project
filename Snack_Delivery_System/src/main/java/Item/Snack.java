@@ -5,12 +5,10 @@ public class Snack {
 
 	private String name;
 	private float price;
-	private String image;
+	private byte[] image;
 	
-	public Snack() {
-		this("",0.0f,"");
-	}
-	public Snack(String name, float price, String image) {
+	
+	public Snack(String name, float price, byte[] image) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -28,10 +26,10 @@ public class Snack {
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	public String getImage() {
+	public byte[] getImage() {
 		return image;
 	}
-	public void setImage(String image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	@Override

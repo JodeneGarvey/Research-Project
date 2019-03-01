@@ -25,7 +25,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();
-			if(stat.execute("Create Table if not exsisted " + Table_Name +  " (name varchar(40) PRIMARY KEY, price float, image String )")) {
+			if(stat.execute("Create Table if not exsisted " + Table_Name +  " (name varchar(40) PRIMARY KEY, price float, image byte[] )")) {
 				
 			}else {
 				System.out.println("Table Created");
@@ -47,18 +47,18 @@ public class SnackDatabase extends SQLProvider<Snack> {
 			res = stat.executeQuery(sql);
 			
 			while(res.next()) {
-				Snack item = new Snack();
-				item.setName(res.getString(1));
-				item.setPrice(res.getFloat(2));
-				item.setImage(res.getString(3));
+				Snack item = new Snack(res.getString(1),res.getFloat(2),res.getBytes(3));
+				
 				
 				Items.add(item);
 				
 				}
+				return Items;
 			}catch(SQLException e) {
 				e.printStackTrace();
+				return null;
 			}
-		return Items;
+		
 		}
 		
 	
@@ -70,7 +70,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 			res = stat.executeQuery(search);
 			if(res.next()) {
 				do {
-					System.out.println(res.getString(1)+","+res.getFloat(2)+","+res.getString(3));
+					System.out.println(res.getString(1)+","+res.getFloat(2)+","+res.getByte(3));
 				}while(res.next());
 			}else {
 				System.out.println("Record not Found");
@@ -95,7 +95,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 			while(res.next()) {
 				String name = res.getString(1);
 				float price = res.getFloat(2);
-				String image = res.getString(3);
+				byte image = res.getByte(3);
 				
 				System.out.println("Snack Name: " +name);
 				System.out.println("Snack Price: " +price);
@@ -142,7 +142,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 			while(res.next()) {
 				String name = res.getString(1);
 				Float price = res.getFloat(2);
-				String image = res.getString(3);
+				byte image = res.getByte(3);
 				
 				System.out.println("Name of Snack: " +name);
 				System.out.println("Snack Price: " +price);
@@ -179,13 +179,13 @@ public class SnackDatabase extends SQLProvider<Snack> {
 	@Override
 	public int Add(Snack Entity) {
 			String sql ="INSERT INTO "+Table_Name+ " (name, price, image) values (?, ?, ?)";
-			File imgFile = new File(Entity.getImage());
+			String img = null;
 			try {
-				FileInputStream file = new FileInputStream(imgFile);
+				InputStream file = new FileInputStream(new File(img));
 				PreparedStatement st = con.prepareStatement(sql);
 				st.setString(1, Entity.getName());
 				st.setFloat(2, Entity.getPrice());
-				st.setBinaryStream(3, (InputStream)file,(int)imgFile.length());
+				st.setBlob(3, file);
 				return st.executeUpdate();
 				
 			} catch (FileNotFoundException e) {
