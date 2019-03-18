@@ -1,8 +1,8 @@
-package Interfaces;
+package Interface;
 
 import Item.Employee;
 
 public interface ISearchEmployee {
 
-	public Employee Show(int id);
+	public Employee show(int id);
 }

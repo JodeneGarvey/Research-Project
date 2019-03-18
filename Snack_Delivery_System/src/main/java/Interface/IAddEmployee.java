@@ -1,4 +1,6 @@
-package Interfaces;
+package Interface;
+
+//Interface Segregation Principle//
 
 import Item.Employee;
 
