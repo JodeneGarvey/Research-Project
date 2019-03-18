@@ -14,14 +14,14 @@ import Item.Snack;
 
 public class SnackDatabase extends SQLProvider<Snack> {
 
-	private static final String Table_Name = "Snack";
+	private static final String Table_Name = "snack";
 	
 	public SnackDatabase() {
 		super();
 	}
 	
 	
-	@Override
+	
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();
@@ -36,7 +36,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 		
 	}
 
-	@Override
+	
 	public List<Snack> viewAll() {
 		List<Snack> Items = new ArrayList<Snack>();
 		
@@ -63,7 +63,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 		
 	
 
-	@Override
+	
 	public Snack show(int id) {
 		String search = "SELECT name, price, image FROM +Table_Name WHERE name = ? ";
 		try {
@@ -84,7 +84,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 		
 	}
 
-	@Override
+	
 	public int Update(Snack Entity , int id) {
 		String update ="UPDATE +Table_Name WHERE name = ? ";
 		try {
@@ -129,7 +129,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 		
 	
 
-	@Override
+	
 	public int Delete(int id) {
 		String delete = "DELETE FROM +Table_Name WHERE name = ?";
 		try {
@@ -176,7 +176,7 @@ public class SnackDatabase extends SQLProvider<Snack> {
 	}
 
 
-	@Override
+	
 	public int Add(Snack Entity) {
 			String sql ="INSERT INTO "+Table_Name+ " (name, price, image) values (?, ?, ?)";
 			String img = null;

@@ -8,11 +8,11 @@ import java.util.List;
 
 import Item.Student;
 
-public abstract class StudentDatabase extends SQLProvider<Student> {
+public class StudentDatabase extends SQLProvider<Student> {
 	
-	private static final String Table_Name = "Students";
+	private static final String Table_Name = "students";
 	
-	@Override
+	
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();
@@ -26,7 +26,7 @@ public abstract class StudentDatabase extends SQLProvider<Student> {
 		}
 	}
 
-	@Override
+	
 	public List<Student> viewAll() {
 		List<Student> Attributes = new ArrayList<Student>();
 		try {
@@ -70,7 +70,7 @@ public abstract class StudentDatabase extends SQLProvider<Student> {
 		return null;
 	}
 
-	@Override
+	
 	public int Update(Student Entity, int id) {
 		String update ="UPDATE +Table_Name WHERE id = ? ";
 		try {
@@ -115,7 +115,7 @@ public abstract class StudentDatabase extends SQLProvider<Student> {
 		
 	
 
-	@Override
+	
 	public int Delete(int id) {
 		String delete = "DELETE FROM +Table_Name WHERE id = ?";
 		try {
@@ -163,7 +163,7 @@ public abstract class StudentDatabase extends SQLProvider<Student> {
 		
 		
 
-	@Override
+	
 	public int Add(Student Entity) {
 		String sql = "INSERT INTO "+Table_Name+ " (id, name, location) values (?, ?, ?)";
 		try {

@@ -6,41 +6,43 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.lang.*;
+import java.sql.*;
 
-public abstract class SQLProvider<D> {
+import Item.Employee;
+
+abstract public class SQLProvider<D> {
 
 	
 	protected Connection con = null;
 	protected Statement stat = null;
 	protected ResultSet res = null;
 	
-	private static final String Driver = "com.microsoft.sqlserver.jbdc.SQLServerDriver";
-	static final String username = "John";
-	static final String password = "pass";
 	
-	public SQLProvider() {
+	private static final String Driver = "com.mysql.cj.jdbc.Driver";
+	
+	public SQLProvider(){
 		try {
-			Class.forName(Driver).newInstance();
+				Class.forName(Driver).newInstance();
+				String url = "jdbc:mysql://localhost:3306/shopdb";
+				con = DriverManager.getConnection(url,"Jodene","patrice");
+				
+				createDatabase();
 			
-			String url = "jbdc:sqlserver://localhost:1433;databaseName=Shopdb";
-			con = DriverManager.getConnection(url);
-			
-			createDatabase();
-			
-		}catch(SQLException e) {
-			System.out.println("Cannot Connect to Database");
 		}catch(ClassNotFoundException e) {
-			System.out.println("Cannot load Database");
-		}catch(NullPointerException e) {
-			System.out.println("Cannot find Database");
-		}catch(IllegalAccessException e) {
-			System.out.println("Unauthorized Access");
-		}catch(InstantiationException e) {
-			System.out.println("Cannot instantiate Database");
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch(NullPointerException e) {
+			e.printStackTrace();
 		}
 	}
 	
-	
+
 	abstract protected void createDatabase();
 	
 	abstract public List<D> viewAll();
@@ -52,6 +54,10 @@ public abstract class SQLProvider<D> {
 	abstract public int Delete(int id);
 	
 	abstract public int Add(D Entity);
+	
+	
+
+
 	
 	
 }

@@ -8,11 +8,11 @@ import java.util.List;
 import Item.Order;
 
 
-public abstract class OrderDatabase extends SQLProvider<Order>{
+public class OrderDatabase extends SQLProvider<Order>{
 	
-	private static final String Table_Name = "Orders";
+	private static final String Table_Name = "orders";
 	
-	@Override
+	
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();
@@ -26,7 +26,7 @@ public abstract class OrderDatabase extends SQLProvider<Order>{
 		}
 	}
 
-	@Override
+	
 	public List<Order> viewAll() {
 		List<Order> Attributes = new ArrayList<Order>();
 		try {
@@ -52,7 +52,7 @@ public abstract class OrderDatabase extends SQLProvider<Order>{
 		return Attributes;
 	}
 
-	@Override
+	
 	public Order show(int Order_ID) {
 		String search = "SELECT Order_ID, Quantity, Total_Cost, Location, Status FROM +Table_Name WHERE Order_ID = ? ";
 		try {
@@ -72,7 +72,7 @@ public abstract class OrderDatabase extends SQLProvider<Order>{
 		return null;
 	}
 	
-	@Override
+	
 	public int Update(Order Entity, int Order_ID) {
 		String update ="UPDATE +Table_Name WHERE Order_ID = ? ";
 		try {
@@ -121,7 +121,7 @@ public abstract class OrderDatabase extends SQLProvider<Order>{
 		
 	
 
-	@Override
+	
 	public int Delete(int Order_ID) {
 		String delete = "DELETE FROM +Table_Name WHERE Order_ID = ?";
 		try {
@@ -173,7 +173,7 @@ public abstract class OrderDatabase extends SQLProvider<Order>{
 		
 		
 
-	@Override
+	
 	public int Add(Order Entity) {
 		String sql = "INSERT INTO "+Table_Name+ " (Order_ID, Quantity, Total_Cost, Location, Status) values (?, ?, ?, ?, ?)";
 		try {

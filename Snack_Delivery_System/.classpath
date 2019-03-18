@@ -33,5 +33,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/joden/Desktop/mysql-connector-java-8.0.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joden/Desktop/mysql-connector-java-8.0.15.zip"/>
+	<classpathentry kind="lib" path="C:/Users/joden/Desktop/Advance Programming/rs2xml.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

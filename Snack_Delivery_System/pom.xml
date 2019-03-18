@@ -33,6 +33,10 @@
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.7.2</version>
     </dependency>
-  	
-  </dependencies>
+   	<dependency>
+   <groupId>com.microsoft.sqlserver</groupId>
+   <artifactId>mssql-jdbc</artifactId>
+   <version>7.2.1.jre11</version>
+	</dependency>
+   </dependencies>
 </project>

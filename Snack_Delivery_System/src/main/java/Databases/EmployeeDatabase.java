@@ -1,21 +1,28 @@
 package Databases;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import Item.Employee;
 
-public abstract class EmployeeDatabase extends SQLProvider<Employee> {
+public class EmployeeDatabase extends SQLProvider<Employee> {
 
-	private static final String Table_Name = "Employee";
+
+
+
+	private static final String Table_Name = "employee";
 	
-	@Override
+	
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();
-			if(stat.execute("Create Table if not exsisted " + Table_Name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(10), password varchar(20) )")) {
+			if(stat.execute("Create Table if not exsisted " + Table_Name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(45), password varchar(45) )")) {
 				
 			}else {
 				System.out.println("Table Created");
@@ -24,8 +31,10 @@ public abstract class EmployeeDatabase extends SQLProvider<Employee> {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
-	@Override
+	
 	public List<Employee> viewAll() {
 		List<Employee> Attributes = new ArrayList<Employee>();
 		try {
@@ -49,9 +58,9 @@ public abstract class EmployeeDatabase extends SQLProvider<Employee> {
 		return Attributes;
 	}
 
-	@Override
+	
 	public Employee show(int id) {
-		String search = "SELECT id,name FROM +Table_Name WHERE id = ? ";
+		String search = "SELECT id,username FROM +Table_Name WHERE id = ? ";
 		try {
 			res = stat.executeQuery(search);
 			if(res.next()) {
@@ -69,9 +78,9 @@ public abstract class EmployeeDatabase extends SQLProvider<Employee> {
 		return null;
 	}
 
-	@Override
+	
 	public int Update(Employee Entity, int id) {
-		String update ="UPDATE +Table_Name WHERE id = ? ";
+		String update ="UPDATE +Table_Name SET id=?,username=?, password=? WHERE id=?";
 		try {
 			stat.executeQuery(update);
 			
@@ -88,8 +97,8 @@ public abstract class EmployeeDatabase extends SQLProvider<Employee> {
 			}
 			res.close();
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -114,14 +123,14 @@ public abstract class EmployeeDatabase extends SQLProvider<Employee> {
 		
 	
 
-	@Override
+	
 	public int Delete(int id) {
 		String delete = "DELETE FROM +Table_Name WHERE id = ?";
 		try {
 			stat.executeQuery(delete);
 			
 			
-			delete = "SELECT id,name,location FROM +Table_Name";
+			delete = "SELECT id,username,password FROM +Table_Name";
 			
 			res = stat.executeQuery(delete);
 			while(res.next()) {
@@ -162,19 +171,19 @@ public abstract class EmployeeDatabase extends SQLProvider<Employee> {
 		
 		
 
-	@Override
-	public int Add(Employee Entity) {
-		String sql = "INSERT INTO "+Table_Name+ " (id, username, password) values (?, ?, ?)";
+	public int Add(Employee Entity){
 		try {
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, Entity.getId());
-			st.setString(2, Entity.getUsername());
-			st.setString(3, Entity.getPassword());
-			return st.executeUpdate();
+			PreparedStatement ps = con.prepareStatement("INSERT INTO "+Table_Name+ " (id, username, password) values (?,?,?)");
+			ps.setInt(1, Entity.getId());
+			ps.setString(2, Entity.getUsername());
+			ps.setString(3, Entity.getPassword());
+			return ps.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return 0;
+		
 	}
 
 	
