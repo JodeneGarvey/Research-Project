@@ -10,7 +10,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class HomePage {
+import Gui.MakeOrder;
+
+public class HomePage extends JFrame {
 
 	private JFrame frame;
 
@@ -36,6 +38,8 @@ public class HomePage {
 	public HomePage() {
 		initialize();
 	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -55,8 +59,11 @@ public class HomePage {
 		JButton btnOrder = new JButton("ORDER");
 		btnOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new OrderPage().setVisible(true);
+				
+				new MakeOrder().setVisible(true);
 				frame.dispose();
+				
+				
 			}
 		});
 		btnOrder.setForeground(new Color(0, 204, 255));

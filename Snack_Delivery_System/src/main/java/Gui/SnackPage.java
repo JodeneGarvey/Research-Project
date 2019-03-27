@@ -302,7 +302,7 @@ public class SnackPage extends JFrame {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new SnackPage().dispose();
-				new EmployeePage().setVisible(true);
+				new AdminPage().setVisible(true);
 			}
 		});
 		btnBack.setForeground(new Color(0, 204, 255));

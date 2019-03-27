@@ -59,7 +59,7 @@ public class AdminPage extends JFrame {
 		});
 		btnEmployeeRecord.setForeground(new Color(0, 204, 255));
 		btnEmployeeRecord.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		btnEmployeeRecord.setBounds(74, 255, 235, 59);
+		btnEmployeeRecord.setBounds(336, 198, 235, 59);
 		contentPane.add(btnEmployeeRecord);
 		
 		JButton btnSnackRecord = new JButton("SNACK RECORD");
@@ -71,19 +71,13 @@ public class AdminPage extends JFrame {
 		});
 		btnSnackRecord.setForeground(new Color(0, 204, 255));
 		btnSnackRecord.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		btnSnackRecord.setBounds(641, 255, 208, 59);
+		btnSnackRecord.setBounds(336, 329, 235, 59);
 		contentPane.add(btnSnackRecord);
-		
-		JButton btnStudentRecord = new JButton("STUDENT RECORD");
-		btnStudentRecord.setForeground(new Color(0, 204, 255));
-		btnStudentRecord.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		btnStudentRecord.setBounds(74, 437, 235, 59);
-		contentPane.add(btnStudentRecord);
 		
 		JButton btnOrderRecord = new JButton("ORDER RECORD");
 		btnOrderRecord.setForeground(new Color(0, 204, 255));
 		btnOrderRecord.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		btnOrderRecord.setBounds(641, 437, 208, 59);
+		btnOrderRecord.setBounds(336, 453, 235, 59);
 		contentPane.add(btnOrderRecord);
 		
 		JButton btnHome = new JButton("HOME");
@@ -95,7 +89,7 @@ public class AdminPage extends JFrame {
 		});
 		btnHome.setForeground(new Color(0, 204, 255));
 		btnHome.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		btnHome.setBounds(382, 597, 145, 51);
+		btnHome.setBounds(336, 597, 235, 51);
 		contentPane.add(btnHome);
 	}
 
