@@ -11,11 +11,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import Item.Snack;
+import Repository.SnackRepository;
 
-
+@Service
 public class SnackDatabase extends SQLProvider<Snack> {
 
+	@Autowired
+	private SnackRepository snackRepository;
+	
 	private static final String Table_Name = "snack";
 	
 	public SnackDatabase() {
@@ -41,166 +48,66 @@ public class SnackDatabase extends SQLProvider<Snack> {
 	
 	public List<Snack> viewAll() {
 		List<Snack> Items = new ArrayList<Snack>();
-		
-		try {
-			stat = con.createStatement();
-			String sql = "SELECT * FROM " +Table_Name ;
-			
-			res = stat.executeQuery(sql);
-			
-			while(res.next()) {
-				Snack item = new Snack(res.getString(1),res.getFloat(2),res.getBytes(3));
-				
-				
-				Items.add(item);
-				
-				}
-				return Items;
-			}catch(SQLException e) {
-				e.printStackTrace();
-				return null;
-			}
-		
+		snackRepository.findAll()
+		.forEach(Items::add);
+		return Items;
 		}
 		
 	
 
 	
+	public Snack show(String name) {
+		return snackRepository.findOne(name);
+		
+	}
+
+	
+	public void Update(Snack Entity , String name) {
+		snackRepository.save(Entity);
+		
+	}
+		
+	
+
+	
+	public void Delete(String name) {
+		snackRepository.delete(name);
+	}
+
+
+	
+	public void Add(Snack Entity) {
+			snackRepository.save(Entity);
+
+			
+	}
+
+
+
+	@Override
 	public Snack show(int id) {
-		String search = "SELECT name, price, image FROM +Table_Name WHERE name = ? ";
-		try {
-			res = stat.executeQuery(search);
-			if(res.next()) {
-				do {
-					System.out.println(res.getString(1)+","+res.getFloat(2)+","+res.getByte(3));
-				}while(res.next());
-			}else {
-				System.out.println("Record not Found");
-			}
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public void Update(Snack Entity, int id) {
+		// TODO Auto-generated method stub
 		
 	}
 
-	
-	public int Update(Snack Entity , int id) {
-		String update ="UPDATE +Table_Name WHERE name = ? ";
-		try {
-			stat.executeQuery(update);
-			
-			update = "SELECT name, price, image FROM +Table_Name";
-			res = stat.executeQuery(update);
-			while(res.next()) {
-				String name = res.getString(1);
-				float price = res.getFloat(2);
-				byte image = res.getByte(3);
-				
-				System.out.println("Snack Name: " +name);
-				System.out.println("Snack Price: " +price);
-				System.out.println("Snack Image: " +image);
-			}
-			res.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
-		}
-		System.out.println("Record Updated");
-		return 0;
-	}
+
+
+	@Override
+	public void Delete(int id) {
+		// TODO Auto-generated method stub
 		
-	
-
-	
-	public int Delete(int id) {
-		String delete = "DELETE FROM +Table_Name WHERE name = ?";
-		try {
-			stat.executeQuery(delete);
-			
-			
-			delete = "SELECT name,price, image FROM +Table_Name";
-			
-			res = stat.executeQuery(delete);
-			while(res.next()) {
-				String name = res.getString(1);
-				Float price = res.getFloat(2);
-				byte image = res.getByte(3);
-				
-				System.out.println("Name of Snack: " +name);
-				System.out.println("Snack Price: " +price);
-				System.out.println("Image of Snack: " +image);
-			}
-			res.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
-		}
-		System.out.println("Record Deleted");
-		return 0;
-			
 	}
 
 
-	
-	public int Add(Snack Entity) {
-			String sql ="INSERT INTO "+Table_Name+ " (name, price, image) values (?, ?, ?)";
-			String img = null;
-			try {
-				InputStream file = new FileInputStream(new File(img));
-				PreparedStatement st = con.prepareStatement(sql);
-				st.setString(1, Entity.getName());
-				st.setFloat(2, Entity.getPrice());
-				st.setBlob(3, file);
-				return st.executeUpdate();
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			System.out.println("Snack Added");
-			return 0;
 
-			
-	}
+	
 
 }

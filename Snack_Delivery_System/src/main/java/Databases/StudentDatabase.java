@@ -47,24 +47,7 @@ public class StudentDatabase extends SQLProvider<Student> {
 	@Override
 	public Student show(int id) {
 		return studentRepository.findOne(id);
-		/*
-		String search = "SELECT id,name FROM +Table_Name WHERE id = ? ";
-		try {
-			res = stat.executeQuery(search);
-			if(res.next()) {
-				do {
-					System.out.println(res.getInt(1)+","+res.getString(2)+","+res.getString(3));
-				}while(res.next());
-			}else {
-				System.out.println("Record not Found");
-			}
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
-		return null;
-		*/
 	}
 
 	
