@@ -49,11 +49,11 @@ abstract public class SQLProvider<D> {
 	
 	abstract public D show(int id);
 	
-	abstract public int Update(D Entity, int id);
+	abstract public void Update(D Entity, int id);
 	
-	abstract public int Delete(int id);
+	abstract public void Delete(int id);
 	
-	abstract public int Add(D Entity);
+	abstract public void Add(D Entity);
 	
 	
 

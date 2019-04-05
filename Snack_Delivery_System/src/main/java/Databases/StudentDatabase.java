@@ -7,9 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Item.Student;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import Item.Student;
+import Repository.StudentRepository;
+
+@Service
 public class StudentDatabase extends SQLProvider<Student> {
+	
+	@Autowired
+	private StudentRepository studentRepository;
 	
 	private static final String Table_Name = "students";
 	
@@ -30,29 +38,16 @@ public class StudentDatabase extends SQLProvider<Student> {
 	
 	public List<Student> viewAll() {
 		List<Student> Attributes = new ArrayList<Student>();
-		try {
-			stat = con.createStatement();
-			String sql = "SELECT * FROM " +Table_Name;
-			
-			res = stat.executeQuery(sql);
-			
-			while(res.next()) {
-				Student attribute = new Student();
-				attribute.setId(res.getInt(1));
-				attribute.setName(res.getString(2));
-				attribute.setLocation(res.getString(3));
-				
-				Attributes.add(attribute);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
+		studentRepository.findAll()
+		.forEach(Attributes::add);
 		return Attributes;
+		
 	}
 
 	@Override
 	public Student show(int id) {
+		return studentRepository.findOne(id);
+		/*
 		String search = "SELECT id,name FROM +Table_Name WHERE id = ? ";
 		try {
 			res = stat.executeQuery(search);
@@ -69,114 +64,29 @@ public class StudentDatabase extends SQLProvider<Student> {
 		}
 		
 		return null;
+		*/
 	}
 
 	
-	public int Update(Student Entity, int id) {
-		String update ="UPDATE +Table_Name WHERE id = ? ";
-		try {
-			stat.executeQuery(update);
-			
-			update = "SELECT id, name, location FROM +Table_Name";
-			res = stat.executeQuery(update);
-			while(res.next()) {
-				res.getInt(id);
-				String name = res.getString(2);
-				String location = res.getString(3);
-				
-				System.out.println("Student ID: " +id);
-				System.out.println("Student Name: " +name);
-				System.out.println("Student Location: " +location);
-			}
-			res.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
-		}
-		System.out.println("Record Updated");
-		return 0;
+	public void Update(Student Entity, int id) {
+		studentRepository.save(Entity);
+		
 	}
 		
 	
 
 	
-	public int Delete(int id) {
-		String delete = "DELETE FROM +Table_Name WHERE id = ?";
-		try {
-			stat.executeQuery(delete);
-			
-			
-			delete = "SELECT id,name,location FROM +Table_Name";
-			
-			res = stat.executeQuery(delete);
-			while(res.next()) {
-				res.getInt(id);
-				String name = res.getString(2);
-				String location = res.getString(3);
-				
-				System.out.println("Student ID: " +id);
-				System.out.println("Student Name: " +name);
-				System.out.println("Student Location: " +location);
-			}
-			res.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
-		}
-		System.out.println("Record Deleted");
-		return 0;
-			
+	public void Delete(int id) {
+		studentRepository.delete(id);
+		
 	}
 		
 		
 
 	
-	public int Add(Student Entity) {
-		String sql = "INSERT INTO "+Table_Name+ " (id, name, location) values (?, ?, ?)";
-		try {
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, Entity.getId());
-			st.setString(2, Entity.getName());
-			st.setString(3, Entity.getLocation());
-			return st.executeUpdate();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
+	public void Add(Student Entity) {
+		 studentRepository.save(Entity);
+		
 	}
 
 }
