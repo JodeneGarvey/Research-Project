@@ -1,9 +1,15 @@
 package Item;
 
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 //Single Responsibility Principle//
 
+@Entity
 public class Order {
 
+	@Id
 	private int Order_ID;
 	private int Quantity;
 	private float Total_Cost = 0;
