@@ -1,5 +1,7 @@
 package Databases;
 
+//Open Closed Principle//
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -97,8 +99,8 @@ public class EmployeeDatabase extends SQLProvider<Employee> {
 			}
 			res.close();
 			
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {

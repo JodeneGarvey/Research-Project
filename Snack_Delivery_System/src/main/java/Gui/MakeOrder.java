@@ -36,10 +36,10 @@ public class MakeOrder extends JFrame {
 	private JTextField snackName;
 	private JTextField snackPrice;
 	private JLabel snackImage;
-	private ImageIcon icon;
+	private ImageIcon icon = null;
 	private JList list;
 	private JTextField textField_quantity;
-	
+	private Image image = null;
 
 	/**
 	 * Launch the application.
@@ -78,17 +78,51 @@ public class MakeOrder extends JFrame {
 		
 		snackPrice.setText(Float.toString(getSnackList().get(index).getPrice()));
 		
-		
+		/*
 		ImageIcon icon = new ImageIcon(getSnackList().get(index).getImage());
 		
 		Image image = icon.getImage().getScaledInstance(snackImage.getWidth(), snackImage.getHeight(), Image.SCALE_SMOOTH);
 		
 		snackImage.setIcon(new ImageIcon(image));
-		
+		*/
 	}
 
 
+	private void InsertStudent() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
+			String sql = "Insert into student values (?,?,?)";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, Integer.parseInt(textField_id.getText()));
+			ps.setString(2, textField_name.getText());
+			ps.setString(3, textField_Location.getText());
+			ps.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Student Record Inserted");
+			con.close();
+		}catch(Exception ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		}
+	}
 
+	private void InsertOrder() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
+			String order ="Insert into order values (?,?,?,?,?)";
+			PreparedStatement ps = con.prepareStatement(order);
+			ps.setInt(1, Integer.parseInt(order_id.getText()));
+			ps.setInt(2, Integer.parseInt(textField_quantity.getText()));
+			ps.setFloat(3, Float.parseFloat(textField_cost.getText()));
+			ps.setString(4, textField_Location.getText());
+			ps.setString(5, "Pending");
+			ps.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Order Added");
+			con.close();
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
 	
 
 
@@ -291,14 +325,20 @@ public class MakeOrder extends JFrame {
 		btnAddSnack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				float total = 0;
+				int quantity = 0;
 					
 				DLM.addElement(snackName.getText());
-				list.setModel(DLM); 
-				float price = Float.parseFloat(snackPrice.getText());
-				int quantity = Integer.parseInt(textField_quantity.getText());
-				textField_quantity.setText("");
-				total += price*quantity;
-				textField_cost.setText(""+total);
+				list.setModel(DLM);
+				for(int i=0; i < list.getModel().getSize(); i++) {
+					list.isSelectedIndex(i);
+					float price = Float.parseFloat(snackPrice.getText());
+					quantity = Integer.parseInt(textField_quantity.getText());
+					total += price*quantity;
+					textField_cost.setText(""+total);
+					
+				}
+				
+				
 			}
 		});
 		btnAddSnack.setForeground(new Color(0, 204, 255));
@@ -336,32 +376,14 @@ public class MakeOrder extends JFrame {
 		JButton btnPlaceOrder = new JButton("PLACE ORDER");
 		btnPlaceOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
+				
+					try {
+					//InsertStudent();
+					InsertOrder();
 					
-					PreparedStatement ps = null;
-					int stud_id = Integer.parseInt(textField_id.getText());
-					String Stud_name = textField_name.getText();
-					String location = textField_Location.getText();
-					int orderid = Integer.parseInt(order_id.getText());
-					int quantity = Integer.parseInt(textField_quantity.getText());
-					float Total_cost = Float.parseFloat(textField_cost.getText());
-					String Status = "Order Pending";
-					
-					String stud = "Insert into student values ('"+stud_id+"','"+Stud_name+"','"+location+"')";
-					ps.executeUpdate(stud);
-					
-					String order = "Insert into order values ('"+orderid+"','"+quantity+"','"+Total_cost+"','"+location+"','"+Status+"')";
-					ps.executeUpdate(order);
-					
-					String stud_order = "Insert into studentorder values ('"+stud_id+"','"+orderid+"')";
-					ps.executeUpdate(stud_order);
-					
-					JOptionPane.showMessageDialog(null, "Your Order has been placed. Delivery in 20 minutes");
-					con.close();
+					JOptionPane.showMessageDialog(null, "Your Order is now Pending. Delivery in 20 minutes");
 				}catch(Exception e) {
-					e.printStackTrace();
+					e.printStackTrace(); //JOptionPane.showMessageDialog(null, "Order not Completed");
 				}
 			}
 		});

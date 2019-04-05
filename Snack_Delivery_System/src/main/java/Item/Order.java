@@ -1,10 +1,12 @@
 package Item;
 
+//Single Responsibility Principle//
+
 public class Order {
 
 	private int Order_ID;
 	private int Quantity;
-	private float Total_Cost;
+	private float Total_Cost = 0;
 	private String Location;
 	private String Status;
 	

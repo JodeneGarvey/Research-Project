@@ -1,7 +1,15 @@
 package Item;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+//Single Responsibility Principle//
+
+@Entity
 public class Student {
 
+	@Id
 	private int id;
 	private String name;
 	private String location;

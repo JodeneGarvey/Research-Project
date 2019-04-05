@@ -1,5 +1,6 @@
 package Databases;
 
+//Open Closed Principle//
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

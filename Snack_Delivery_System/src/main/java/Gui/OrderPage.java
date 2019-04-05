@@ -6,38 +6,25 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import Item.Snack;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import java.awt.Image;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 
 public class OrderPage extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField_price;
-	private JTextField textField_sname;
+	private JTable table;
+	private JTextField order_id;
+	private JTextField student_id;
+	private JTextField location;
+	private JTextField snack;
+	private JTextField quantity;
 	private JTextField textField;
-	private JTextField textField_1;
-	JLabel lbl_simage = new javax.swing.JLabel("");
 
-	
 	/**
 	 * Launch the application.
 	 */
@@ -47,70 +34,19 @@ public class OrderPage extends JFrame {
 				try {
 					OrderPage frame = new OrderPage();
 					frame.setVisible(true);
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	 int pos = 0;
-	
-	public Connection getConnection() {
-		Connection con = null;
-		
-		try {
-			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
-		}catch(Exception ex) {
-			System.out.println(ex);
-		}
-		return con;
-	}
-	
-	public List<Snack> getSnack(){
-		try {
-			Connection connect = getConnection();
-			Statement st = connect.createStatement();
-			ResultSet rs = st.executeQuery("Select * from snack");
-			List<Snack> list = new ArrayList<Snack>();
-			Snack snack;
-			
-			while(rs.next()) {
-				snack = new Snack(rs.getString("name"),rs.getFloat("price"),rs.getBytes("image"));
-				list.add(snack);
-			}
-			return list;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public void showSnack(int Index) {
-		try {
-			
-			textField_sname.setText(getSnack().get(Index).getName());
-			textField_price.setText(Float.toString(getSnack().get(Index).getPrice()));
-			ImageIcon icon = new ImageIcon(getSnack().get(Index).getImage());
-			Image image = icon.getImage().getScaledInstance(lbl_simage.getWidth(),lbl_simage.getHeight(),Image.SCALE_SMOOTH);
-			
-			lbl_simage.setIcon(new ImageIcon(image));
-			
-		
-		
-		}catch(Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-		}
-		
-	}
 
-	
 	/**
 	 * Create the frame.
 	 */
 	public OrderPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1061, 519);
+		setBounds(100, 100, 1339, 831);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -119,103 +55,92 @@ public class OrderPage extends JFrame {
 		JLabel lblOrderPage = new JLabel("ORDER PAGE");
 		lblOrderPage.setForeground(new Color(0, 204, 204));
 		lblOrderPage.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblOrderPage.setBounds(311, 16, 163, 20);
+		lblOrderPage.setBounds(493, 16, 174, 45);
 		contentPane.add(lblOrderPage);
 		
-		JLabel lbl_simage = new javax.swing.JLabel("");
-		lbl_simage.setBounds(15, 54, 281, 273);
-		contentPane.add(lbl_simage);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(15, 129, 779, 412);
+		contentPane.add(scrollPane);
 		
-		JLabel Sname = new JLabel("Name");
-		Sname.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		Sname.setBounds(330, 129, 69, 20);
-		contentPane.add(Sname);
+		table = new JTable();
+		scrollPane.setViewportView(table);
 		
-		JLabel Sprice = new JLabel("Price");
-		Sprice.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		Sprice.setBounds(330, 229, 69, 20);
-		contentPane.add(Sprice);
+		JLabel lblOrderid = new JLabel("Order ID");
+		lblOrderid.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblOrderid.setBounds(823, 126, 89, 20);
+		contentPane.add(lblOrderid);
 		
-		textField_price = new JTextField();
-		textField_price.setBounds(330, 265, 146, 26);
-		contentPane.add(textField_price);
-		textField_price.setColumns(10);
+		order_id = new JTextField();
+		order_id.setBounds(927, 123, 184, 26);
+		contentPane.add(order_id);
+		order_id.setColumns(10);
 		
-		textField_sname = new JTextField();
-		textField_sname.setBounds(328, 175, 146, 26);
-		contentPane.add(textField_sname);
-		textField_sname.setColumns(10);
+		JLabel lblStudentId = new JLabel("Student ID");
+		lblStudentId.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblStudentId.setBounds(823, 181, 89, 20);
+		contentPane.add(lblStudentId);
 		
-		showSnack(pos);
+		student_id = new JTextField();
+		student_id.setBounds(927, 178, 184, 26);
+		contentPane.add(student_id);
+		student_id.setColumns(10);
 		
-		JButton btnFirst = new JButton("FIRST");
-		btnFirst.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				pos = 0;
-				showSnack(pos);
-			}
-		});
-		btnFirst.setForeground(new Color(0, 204, 255));
-		btnFirst.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
-		btnFirst.setBounds(37, 391, 115, 29);
-		contentPane.add(btnFirst);
+		JLabel lblLocation = new JLabel("Location");
+		lblLocation.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblLocation.setBounds(823, 241, 80, 20);
+		contentPane.add(lblLocation);
 		
-		JButton btnNext = new JButton("NEXT");
-		btnNext.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pos++;
-				if(pos>=getSnack().size()) {
-					pos = getSnack().size()-1;
-					
-				}
-				showSnack(pos);
-			}
-		});
-		btnNext.setForeground(new Color(0, 204, 255));
-		btnNext.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
-		btnNext.setBounds(200, 391, 115, 29);
-		contentPane.add(btnNext);
+		location = new JTextField();
+		location.setText("");
+		location.setBounds(927, 238, 184, 26);
+		contentPane.add(location);
+		location.setColumns(10);
 		
-		JButton btnPrevious = new JButton("PREVIOUS");
-		btnPrevious.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pos--;
-				if(pos < 0) {
-					pos = 0;
-				}
-				showSnack(pos);
-			}
-		});
-		btnPrevious.setForeground(new Color(0, 204, 255));
-		btnPrevious.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
-		btnPrevious.setBounds(355, 391, 163, 29);
-		contentPane.add(btnPrevious);
+		JLabel lblSnackName = new JLabel("Snack Name");
+		lblSnackName.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblSnackName.setBounds(823, 304, 119, 20);
+		contentPane.add(lblSnackName);
 		
-		JButton btnLast = new JButton("LAST");
-		btnLast.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pos = getSnack().size() - 1;
-				showSnack(pos);
-			}
-		});
-		btnLast.setForeground(new Color(0, 204, 255));
-		btnLast.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
-		btnLast.setBounds(573, 393, 115, 29);
-		contentPane.add(btnLast);
+		snack = new JTextField();
+		snack.setText("");
+		snack.setBounds(929, 301, 182, 26);
+		contentPane.add(snack);
+		snack.setColumns(10);
+		
+		JLabel lblQuantity = new JLabel("Quantity");
+		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblQuantity.setBounds(823, 360, 89, 20);
+		contentPane.add(lblQuantity);
+		
+		quantity = new JTextField();
+		quantity.setBounds(927, 357, 184, 26);
+		contentPane.add(quantity);
+		quantity.setColumns(10);
+		
+		JLabel lblTotalCost = new JLabel("Total Cost");
+		lblTotalCost.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTotalCost.setBounds(823, 414, 89, 20);
+		contentPane.add(lblTotalCost);
 		
 		textField = new JTextField();
-		textField.setBounds(662, 49, 281, 242);
+		textField.setText("");
+		textField.setBounds(927, 411, 184, 26);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblTotalPrice = new JLabel("Total Price");
-		lblTotalPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTotalPrice.setBounds(672, 307, 115, 20);
-		contentPane.add(lblTotalPrice);
+		JLabel lblStatus = new JLabel("Status");
+		lblStatus.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblStatus.setBounds(823, 470, 69, 20);
+		contentPane.add(lblStatus);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(790, 307, 146, 26);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		JRadioButton rdbtnPending = new JRadioButton("Pending");
+		rdbtnPending.setFont(new Font("Tahoma", Font.BOLD, 16));
+		rdbtnPending.setBounds(927, 470, 119, 29);
+		contentPane.add(rdbtnPending);
+		
+		JRadioButton rdbtnDelivered = new JRadioButton("Delivered");
+		rdbtnDelivered.setFont(new Font("Tahoma", Font.BOLD, 16));
+		rdbtnDelivered.setBounds(927, 512, 125, 29);
+		contentPane.add(rdbtnDelivered);
 	}
 }

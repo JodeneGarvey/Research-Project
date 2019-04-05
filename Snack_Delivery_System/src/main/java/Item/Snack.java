@@ -1,6 +1,6 @@
 package Item;
 
-
+//Single Responsibility Principle//
 public class Snack {
 
 	private String name;

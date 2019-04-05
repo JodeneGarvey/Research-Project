@@ -75,6 +75,12 @@ public class AdminPage extends JFrame {
 		contentPane.add(btnSnackRecord);
 		
 		JButton btnOrderRecord = new JButton("ORDER RECORD");
+		btnOrderRecord.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new OrderPage().setVisible(true);
+				new AdminPage().dispose();
+			}
+		});
 		btnOrderRecord.setForeground(new Color(0, 204, 255));
 		btnOrderRecord.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
 		btnOrderRecord.setBounds(336, 453, 235, 59);

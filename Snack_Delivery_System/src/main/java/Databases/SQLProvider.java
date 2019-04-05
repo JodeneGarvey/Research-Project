@@ -45,7 +45,7 @@ abstract public class SQLProvider<D> {
 
 	abstract protected void createDatabase();
 	
-	abstract public List<D> viewAll();
+	abstract public List<D> viewAll();//Dependency Inversion//
 	
 	abstract public D show(int id);
 	
