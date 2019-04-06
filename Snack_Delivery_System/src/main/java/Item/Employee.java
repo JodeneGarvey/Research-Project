@@ -1,8 +1,14 @@
 package Item;
 
+import javax.persistence.Id;
+import javax.persistence.Entity;
 //Single Responsibility Principle//
+
+
+@Entity
 public class Employee {
 
+	@Id
 	private int id;
 	private String username;
 	private String password;
