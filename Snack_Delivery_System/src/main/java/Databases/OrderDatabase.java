@@ -7,14 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Item.Order;
 import Repository.OrderRepository;
 
 @Service
-public class OrderDatabase extends SQLProvider<Order>{
+public class OrderDatabase extends SQLProvider<Order>{// Factory Pattern
 	
+	@Autowired
 	private OrderRepository orderRepository;
 	
 	private static final String Table_Name = "orders";

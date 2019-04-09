@@ -46,6 +46,7 @@ public class HomePage extends JFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(153, 204, 255));
 		frame.setBounds(100, 100, 1015, 738);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -80,7 +81,7 @@ public class HomePage extends JFrame {
 		});
 		btnAdmin.setForeground(new Color(0, 204, 255));
 		btnAdmin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		btnAdmin.setBounds(366, 421, 141, 59);
+		btnAdmin.setBounds(366, 386, 141, 59);
 		frame.getContentPane().add(btnAdmin);
 		
 		JButton btnNewButton = new JButton("CLOSE");
@@ -91,7 +92,7 @@ public class HomePage extends JFrame {
 		});
 		btnNewButton.setForeground(new Color(0, 204, 255));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		btnNewButton.setBounds(366, 555, 141, 59);
+		btnNewButton.setBounds(366, 505, 141, 59);
 		frame.getContentPane().add(btnNewButton);
 	}
 }

@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
 
 import net.proteanit.sql.DbUtils;
 
@@ -24,6 +25,9 @@ import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.SystemColor;
 
 public class EmployeePage extends JFrame {
 
@@ -56,6 +60,7 @@ public class EmployeePage extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1250, 701);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(175, 238, 238));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -196,6 +201,16 @@ public class EmployeePage extends JFrame {
 		eid.setColumns(10);
 		
 		JScrollPane tbl = new JScrollPane();
+		tbl.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent arg0) {
+				int i = table.getSelectedRow();
+				TableModel model = table.getModel();
+				eid.setText(model.getValueAt(i, 1).toString());
+				username.setText(model.getValueAt(i, 2).toString());
+				password.setText(model.getValueAt(i, 3).toString());
+			}
+		});
 		tbl.setBounds(648, 132, 536, 322);
 		contentPane.add(tbl);
 		

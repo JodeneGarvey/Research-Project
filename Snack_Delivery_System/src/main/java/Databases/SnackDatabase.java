@@ -18,7 +18,7 @@ import Item.Snack;
 import Repository.SnackRepository;
 
 @Service
-public class SnackDatabase extends SQLProvider<Snack> {
+public class SnackDatabase extends SQLProvider<Snack> {// Factory Pattern
 
 	@Autowired
 	private SnackRepository snackRepository;

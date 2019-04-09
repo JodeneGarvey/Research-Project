@@ -11,6 +11,7 @@ import java.sql.*;
 
 import Item.Employee;
 
+//Singleton Pattern
 abstract public class SQLProvider<D> {
 
 	

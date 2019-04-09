@@ -18,15 +18,15 @@ import Repository.EmployeeRepository;
 
 
 @Service
-public class EmployeeDatabase extends SQLProvider<Employee> {
+public class EmployeeDatabase extends SQLProvider<Employee> {// Factory Pattern
 
 
-	private EmployeeRepository employeeRepository;
+	private EmployeeRepository employeeRepository; //Repository Pattern
 
 
 	private static final String Table_Name = "employee";
 	
-	
+	//Singleton Pattern
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();

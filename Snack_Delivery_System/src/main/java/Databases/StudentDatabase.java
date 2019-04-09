@@ -14,7 +14,7 @@ import Item.Student;
 import Repository.StudentRepository;
 
 @Service
-public class StudentDatabase extends SQLProvider<Student> {
+public class StudentDatabase extends SQLProvider<Student> {// Factory Pattern
 	
 	@Autowired
 	private StudentRepository studentRepository;

@@ -1,7 +1,5 @@
 package Gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +16,8 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import Item.Snack;
@@ -106,24 +106,48 @@ public class MakeOrder extends JFrame {
 	}
 
 	private void InsertOrder() {
+		String Status = "Pending";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
-			String order ="Insert into order values (?,?,?,?,?)";
-			PreparedStatement ps = con.prepareStatement(order);
+			String sql = "Insert into shopdb.order values(?,?,?,?,?)";
+			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, Integer.parseInt(order_id.getText()));
 			ps.setInt(2, Integer.parseInt(textField_quantity.getText()));
 			ps.setFloat(3, Float.parseFloat(textField_cost.getText()));
 			ps.setString(4, textField_Location.getText());
-			ps.setString(5, "Pending");
+			ps.setString(5, Status);
 			ps.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Order Added");
+			JOptionPane.showMessageDialog(null, "Your Order Has Been Added");
 			con.close();
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 	
+	private void StudentOrder() {
+		
+		try {
+			DefaultListModel DLM = new DefaultListModel();
+			DLM.addElement(snackName.getText());
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene" , "patrice");
+			String Sorder = "Insert into studentorder values (?,?,?)";
+			PreparedStatement ps = con.prepareStatement(Sorder);
+			ps.setInt(1, Integer.parseInt(order_id.getText()));
+			ps.setInt(2, Integer.parseInt(textField_id.getText()));
+			ps.setString(3, snackName.getText());
+			
+			ps.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Order Placed");
+			
+			con.close();
+			
+			
+		}catch(Exception ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		}
+	}
 
 
 
@@ -185,6 +209,7 @@ public class MakeOrder extends JFrame {
 		
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(175, 238, 238));
 		panel.setBounds(0, 0, 1319, 781);
 		Orders.getContentPane().add(panel);
 		panel.setLayout(null);
@@ -378,12 +403,14 @@ public class MakeOrder extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 					try {
-					//InsertStudent();
+					InsertStudent();
 					InsertOrder();
+					StudentOrder();
 					
 					JOptionPane.showMessageDialog(null, "Your Order is now Pending. Delivery in 20 minutes");
+					Orders.dispose();
 				}catch(Exception e) {
-					e.printStackTrace(); //JOptionPane.showMessageDialog(null, "Order not Completed");
+					JOptionPane.showMessageDialog(null, "Order not Completed");
 				}
 			}
 		});
@@ -405,5 +432,16 @@ public class MakeOrder extends JFrame {
 		order_id.setBounds(118, 115, 146, 26);
 		panel.add(order_id);
 		order_id.setColumns(10);
+		
+		JButton btnExit = new JButton("EXIT");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Orders.dispose();
+				
+			}
+		});
+		btnExit.setForeground(new Color(0, 204, 255));
+		btnExit.setBounds(977, 721, 115, 29);
+		panel.add(btnExit);
 	}
 }
