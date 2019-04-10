@@ -87,10 +87,10 @@ public class AdminPage extends JFrame {
 		btnOrderRecord.setBounds(336, 453, 235, 59);
 		contentPane.add(btnOrderRecord);
 		
-		JButton btnHome = new JButton("HOME");
+		JButton btnHome = new JButton("EXIT");
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AdminPage().dispose();
+				System.exit(0);
 				
 			}
 		});

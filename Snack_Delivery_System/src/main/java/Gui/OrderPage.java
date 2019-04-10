@@ -23,6 +23,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class OrderPage extends JFrame {
 
@@ -77,7 +80,6 @@ public class OrderPage extends JFrame {
 	 */
 	public OrderPage() {
 		OrderList();
-		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1339, 831);
@@ -180,6 +182,18 @@ public class OrderPage extends JFrame {
 		table = new JTable();
 		tbl.setViewportView(table);
 		
+		JButton btnReturn = new JButton("RETURN");
+		btnReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AdminPage().setVisible(true);
+				new OrderPage().dispose();
+			}
+		});
+		btnReturn.setForeground(new Color(0, 204, 255));
+		btnReturn.setBounds(309, 663, 115, 29);
+		contentPane.add(btnReturn);
+		
+		OrderList();
 		
 	}
 }
