@@ -61,7 +61,8 @@ public class OrderPage extends JFrame {
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
 			
 			
-			String sql = "SELECT shopdb.order.order_id, student.id, studentorder.snack, shopdb.order.quantity, shopdb.order.total_cost, shopdb.order.location, shopdb.order.status From shopdb.order";
+			String sql = "SELECT shopdb.order.order_id, studentorder.student_id, studentorder.snack, shopdb.order.quantity, shopdb.order.total_cost, shopdb.order.location, shopdb.order.status From shopdb.order INNER JOIN studentorder ON shopdb.order.order_id = studentorder.order_id";
+			
 			
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
