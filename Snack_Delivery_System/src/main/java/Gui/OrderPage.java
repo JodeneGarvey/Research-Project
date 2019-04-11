@@ -217,10 +217,10 @@ public class OrderPage extends JFrame {
 				
 				order_id.setText(model.getValueAt(selectedrow, 0).toString());
 				student_id.setText(model.getValueAt(selectedrow, 1).toString());
-				location.setText(model.getValueAt(selectedrow, 2).toString());
-				snack.setText(model.getValueAt(selectedrow, 3).toString());
-				quantity.setText(model.getValueAt(selectedrow, 4).toString());
-				total.setText(model.getValueAt(selectedrow, 5).toString());
+				location.setText(model.getValueAt(selectedrow, 5).toString());
+				snack.setText(model.getValueAt(selectedrow, 2).toString());
+				quantity.setText(model.getValueAt(selectedrow, 3).toString());
+				total.setText(model.getValueAt(selectedrow, 4).toString());
 				String Status = model.getValueAt(selectedrow, 6).toString();
 				if(Status.equals("Pending")) {
 					rdbtnPending.setSelected(true);
