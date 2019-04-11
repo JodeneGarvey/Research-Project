@@ -204,17 +204,22 @@ public class EmployeePage extends JFrame {
 		tbl.addMouseListener(new MouseAdapter() {
 			
 			public void mouseClicked(MouseEvent arg0) {
-				int i = table.getSelectedRow();
-				TableModel model = table.getModel();
-				eid.setText(model.getValueAt(i, 1).toString());
-				username.setText(model.getValueAt(i, 2).toString());
-				password.setText(model.getValueAt(i, 3).toString());
+				
 			}
 		});
 		tbl.setBounds(648, 132, 536, 322);
 		contentPane.add(tbl);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int i = table.getSelectedRow();
+				TableModel model = table.getModel();
+				eid.setText(model.getValueAt(i, 0).toString());
+				username.setText(model.getValueAt(i, 1).toString());
+			}
+		});
 		tbl.setViewportView(table);
 		
 		JButton btnReset = new JButton("RESET");

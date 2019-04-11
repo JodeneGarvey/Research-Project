@@ -6,10 +6,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTable;
@@ -23,9 +26,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
 public class OrderPage extends JFrame {
 
@@ -35,8 +41,9 @@ public class OrderPage extends JFrame {
 	private JTextField location;
 	private JTextField snack;
 	private JTextField quantity;
-	private JTextField textField;
+	private JTextField total;
 	private JTable table;
+	protected AbstractButton rdbtnDelivered;
 
 	/**
 	 * Launch the application.
@@ -153,11 +160,11 @@ public class OrderPage extends JFrame {
 		lblTotalCost.setBounds(823, 414, 89, 20);
 		contentPane.add(lblTotalCost);
 		
-		textField = new JTextField();
-		textField.setText("");
-		textField.setBounds(927, 411, 184, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		total = new JTextField();
+		total.setText("");
+		total.setBounds(927, 411, 184, 26);
+		contentPane.add(total);
+		total.setColumns(10);
 		
 		JLabel lblStatus = new JLabel("Status");
 		lblStatus.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -165,25 +172,67 @@ public class OrderPage extends JFrame {
 		contentPane.add(lblStatus);
 		
 		JRadioButton rdbtnPending = new JRadioButton("Pending");
+		rdbtnPending.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(rdbtnPending.isSelected()) {
+					 rdbtnDelivered.setSelected(false);
+				}
+					
+			}
+		});
 		rdbtnPending.setBackground(new Color(175, 238, 238));
 		rdbtnPending.setFont(new Font("Tahoma", Font.BOLD, 16));
 		rdbtnPending.setBounds(927, 470, 119, 29);
 		contentPane.add(rdbtnPending);
 		
 		JRadioButton rdbtnDelivered = new JRadioButton("Delivered");
+		rdbtnDelivered.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(rdbtnDelivered.isSelected()) {
+					rdbtnPending.setSelected(false);
+				}
+			}
+		});
 		rdbtnDelivered.setBackground(new Color(175, 238, 238));
 		rdbtnDelivered.setFont(new Font("Tahoma", Font.BOLD, 16));
 		rdbtnDelivered.setBounds(927, 512, 125, 29);
 		contentPane.add(rdbtnDelivered);
 		
-		JScrollPane tbl = new JScrollPane();
-		tbl.setBounds(62, 100, 677, 459);
-		contentPane.add(tbl);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
+		scrollPane.setBounds(62, 100, 677, 459);
+		contentPane.add(scrollPane);
 		
 		table = new JTable();
-		tbl.setViewportView(table);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				int selectedrow = table.getSelectedRow();
+				
+				order_id.setText(model.getValueAt(selectedrow, 0).toString());
+				student_id.setText(model.getValueAt(selectedrow, 1).toString());
+				location.setText(model.getValueAt(selectedrow, 2).toString());
+				snack.setText(model.getValueAt(selectedrow, 3).toString());
+				quantity.setText(model.getValueAt(selectedrow, 4).toString());
+				total.setText(model.getValueAt(selectedrow, 5).toString());
+				String Status = model.getValueAt(selectedrow, 6).toString();
+				if(Status.equals("Pending")) {
+					rdbtnPending.setSelected(true);
+				}else {
+					rdbtnDelivered.setSelected(true);
+				}
+			}
+		});
+		scrollPane.setViewportView(table);
 		
 		JButton btnReturn = new JButton("RETURN");
+		btnReturn.setBackground(new Color(240, 240, 240));
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new AdminPage().setVisible(true);
@@ -193,6 +242,41 @@ public class OrderPage extends JFrame {
 		btnReturn.setForeground(new Color(0, 204, 255));
 		btnReturn.setBounds(309, 663, 115, 29);
 		contentPane.add(btnReturn);
+		
+		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
+					String status;
+					int row = table.getSelectedRow();
+					String value = (table.getModel().getValueAt(row, 0).toString());
+					String sql = "Update shopdb.order SET status=? where order_id="+value;
+					
+					PreparedStatement ps = con.prepareStatement(sql);
+					
+					if(rdbtnPending.isSelected()) {
+						status = "Pending";
+					}else {
+						status = "Delivered";
+					}
+					ps.setString(1, status);
+					
+					ps.executeUpdate();
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					OrderList();
+					JOptionPane.showMessageDialog(null, "Record Updated");
+					con.close();
+				}catch(Exception exp) {
+					JOptionPane.showMessageDialog(null, exp);
+				}
+			}
+		});
+		btnUpdate.setForeground(new Color(0, 204, 255));
+		btnUpdate.setBounds(943, 663, 115, 29);
+		contentPane.add(btnUpdate);
 		
 		OrderList();
 		
