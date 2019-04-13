@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import Item.Order;
 import Repository.OrderRepository;
 
+//Liskov's Substitution Principle
 @Service
 public class OrderDatabase extends SQLProvider<Order>{// Factory Pattern
 	

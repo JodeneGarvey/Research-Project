@@ -18,7 +18,7 @@ abstract public class SQLProvider<D> {
 	protected Connection con = null;
 	protected Statement stat = null;
 	protected ResultSet res = null;
-	
+	public static SQLProvider db;
 	
 	private static final String Driver = "com.mysql.cj.jdbc.Driver";
 	
@@ -43,10 +43,12 @@ abstract public class SQLProvider<D> {
 		}
 	}
 	
+	
+	
 
 	abstract protected void createDatabase();
 	
-	abstract public List<D> viewAll();//Dependency Inversion//
+	abstract public List<D> viewAll();
 	
 	abstract public D show(int id);
 	

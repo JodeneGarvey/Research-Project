@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service;
 import Item.Student;
 import Repository.StudentRepository;
 
+//Liskov's Substitution Principle
 @Service
-public class StudentDatabase extends SQLProvider<Student> {// Factory Pattern
+public class StudentDatabase extends SQLProvider<Student> {
 	
 	@Autowired
 	private StudentRepository studentRepository;

@@ -17,17 +17,17 @@ import org.springframework.stereotype.Service;
 import Item.Employee;
 import Repository.EmployeeRepository;
 
-
+//Liskov's Substitution Principle
 @Service
-public class EmployeeDatabase extends SQLProvider<Employee> {// Factory Pattern
+public class EmployeeDatabase extends SQLProvider<Employee> {
 
     @Autowired
-	private EmployeeRepository employeeRepository; //Repository Pattern
+	private EmployeeRepository employeeRepository; 
 
 
 	private static final String Table_Name = "employee";
 	
-	//Singleton Pattern
+	
 	protected void createDatabase() {
 		try {
 			stat = con.createStatement();

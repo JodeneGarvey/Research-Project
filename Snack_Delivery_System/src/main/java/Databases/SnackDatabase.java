@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import Item.Snack;
 import Repository.SnackRepository;
 
+//Liskov's Substitution Principle
 @Service
 public class SnackDatabase extends SQLProvider<Snack> {// Factory Pattern
 

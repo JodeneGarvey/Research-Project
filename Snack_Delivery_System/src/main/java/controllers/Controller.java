@@ -7,6 +7,7 @@ import Item.Employee;
 import Repository.EmployeeFactory;
 
 public class Controller {
+	//Dependency Inversion Principle
 	IAddEmployee employeeRepo = EmployeeFactory.createEmployeeRepo();
 
 	IDelete employee = EmployeeFactory.deleteEmployeeRepo();
