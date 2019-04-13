@@ -16,6 +16,8 @@ import Interface.IShowEmployee;
 import Interface.IUpdateEmployee;
 import Item.Employee;
 
+
+//View for Employee
 public class MysqlEmployeeRepository implements IAddEmployee, IDelete, ISearchEmployee, IUpdateEmployee, IShowEmployee {
 
 	Connection con;
@@ -84,46 +86,22 @@ public MysqlEmployeeRepository() {
 
 	@Override
 	public int Update(Employee Entity, int id) {
-		String update ="UPDATE +Table_Name SET id=?,username=?, password=? WHERE id=?";
 		try {
-			stat.executeQuery(update);
+			String sql = "Update employee set username = ?, password = ? where id = ?";
 			
-			update = "SELECT username, password FROM employee";
-			res = stat.executeQuery(update);
-			while(res.next()) {
-				res.getInt(id);
-				String username = res.getString(2);
-				String password = res.getString(3);
-				
-				System.out.println("Employee ID " +id);
-				System.out.println("Employee Username: " +username);
-				System.out.println("Employee Password: " +password);
-			}
-			res.close();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, Entity.getUsername());
+			ps.setString(2, Entity.getPassword());
+			ps.setInt(3, id);
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
+			ps.executeUpdate();
 				}catch(SQLException e) {
 					e.printStackTrace();
 			}
-		}
-		System.out.println("Record Updated");
 		return 0;
-	}
+		}
+		
+	
 	
 	
 	@Override
@@ -147,46 +125,14 @@ public MysqlEmployeeRepository() {
 
 	@Override
 	public int Delete(int id) {
-		String delete = "DELETE FROM employee WHERE id = ?";
 		try {
-			stat.executeQuery(delete);
-			
-			
-			delete = "SELECT id,username,password FROM employee";
-			
-			res = stat.executeQuery(delete);
-			while(res.next()) {
-				res.getInt(id);
-				String username = res.getString(2);
-				String password = res.getString(3);
-				
-				System.out.println("Employee ID: " +id);
-				System.out.println("Employee Username: " +username);
-				System.out.println("Employee Password: " +password);
-			}
-			res.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+			String sql ="Delete from employee where id = ?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.execute();
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
 		}
-		System.out.println("Record Deleted");
 		return 0;
 	}
 	

@@ -117,14 +117,14 @@ public class EmployeePage extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
+					Controller controller = new Controller();
+					if(controller.deleteEmployee(Integer.parseInt(eid.getText()))) {
+						JOptionPane.showMessageDialog(null, "Record Not Deleted");
+					}else {
+						JOptionPane.showMessageDialog(null, "Record Delete");
+					}
 					
-					String sql ="Delete from employee where id = ?";
-					PreparedStatement ps = con.prepareStatement(sql);
-					ps.setString(1, eid.getText());
-					ps.execute();
-					JOptionPane.showMessageDialog(null, "Record Deleted");
+					
 				}catch(Exception d) {
 					JOptionPane.showMessageDialog(null, d);
 				}
@@ -139,19 +139,13 @@ public class EmployeePage extends JFrame {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
+					Controller controller = new Controller();
+					if(controller.updateEmployee(Integer.parseInt(eid.getText()), username.getText(), password.getText())) {
+						JOptionPane.showMessageDialog(null, "Record Updated");
+					}else {
+						JOptionPane.showMessageDialog(null, "Record Failed To Update");
+					}
 					
-					String sql = "Update employee set username = ?, password = ? where id = ?";
-					
-					PreparedStatement ps = con.prepareStatement(sql);
-					ps.setString(1, username.getText());
-					ps.setString(2, password.getText());
-					ps.setInt(3, Integer.parseInt(eid.getText()));
-					
-					ps.executeUpdate();
-					JOptionPane.showMessageDialog(null, "Record Updated");
-					con.close();
 				}catch(Exception exp) {
 					JOptionPane.showMessageDialog(null, exp);
 				}
