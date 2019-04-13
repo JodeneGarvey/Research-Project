@@ -266,6 +266,7 @@ public class OrderPage extends JFrame {
 					ps.setString(1, status);
 					
 					ps.executeUpdate();
+						
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					model.setRowCount(0);
 					OrderList();
