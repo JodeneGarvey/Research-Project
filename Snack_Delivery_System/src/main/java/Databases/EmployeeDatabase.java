@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Item.Employee;
@@ -20,7 +21,7 @@ import Repository.EmployeeRepository;
 @Service
 public class EmployeeDatabase extends SQLProvider<Employee> {// Factory Pattern
 
-
+    @Autowired
 	private EmployeeRepository employeeRepository; //Repository Pattern
 
 

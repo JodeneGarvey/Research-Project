@@ -1,4 +1,4 @@
-package Gui;
+package Gui;//View
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 
+import controllers.Controller;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
@@ -90,16 +91,18 @@ public class EmployeePage extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
-					String sql = "Insert into employee values (?,?,?)";
-					PreparedStatement ps = con.prepareStatement(sql);
-					ps.setInt(1, Integer.parseInt(eid.getText()));
-					ps.setString(2, username.getText());
-					ps.setString(3, password.getText());
-					ps.executeUpdate();
-					JOptionPane.showMessageDialog(null, "Record Inserted");
-					con.close();
+					Controller controller = new Controller();
+					if(controller.addEmployee(
+							Integer.parseInt(eid.getText()),
+							username.getText(),
+							password.getText()
+							)) {
+						JOptionPane.showMessageDialog(null, "Record Inserted");
+					}else {
+						JOptionPane.showMessageDialog(null, "Record Not Inserted");
+					}
+					
+					
 				}catch(Exception ex) {
 					JOptionPane.showMessageDialog(null, ex);
 				}
