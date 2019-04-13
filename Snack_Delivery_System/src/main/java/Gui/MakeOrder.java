@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +103,11 @@ public class MakeOrder extends JFrame {
 			ps.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Student Record Inserted");
 			con.close();
-		}catch(Exception ex) {
+			
+		}catch(SQLIntegrityConstraintViolationException e) {
+			JOptionPane.showMessageDialog(null, "Record Already Stored");
+			
+			}catch(Exception ex) {
 			JOptionPane.showMessageDialog(null, ex);
 		}
 	}
@@ -370,8 +375,10 @@ public class MakeOrder extends JFrame {
 		JButton btnRemoveSnack = new JButton("REMOVE SNACK");
 		btnRemoveSnack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				DLM.removeElement(snackName.getText());
 				list.getSelectedValue();
+				textField_cost.setText("");
 			}
 		});
 		btnRemoveSnack.setForeground(new Color(0, 204, 255));
