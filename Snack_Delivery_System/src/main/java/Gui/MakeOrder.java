@@ -21,6 +21,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import Item.Snack;
+import controllers.OrderController;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -108,18 +110,13 @@ public class MakeOrder extends JFrame {
 	private void InsertOrder() {
 		String Status = "Pending";
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
-			String sql = "Insert into shopdb.order values(?,?,?,?,?)";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, Integer.parseInt(order_id.getText()));
-			ps.setInt(2, Integer.parseInt(textField_quantity.getText()));
-			ps.setFloat(3, Float.parseFloat(textField_cost.getText()));
-			ps.setString(4, textField_Location.getText());
-			ps.setString(5, Status);
-			ps.executeUpdate();
-			JOptionPane.showMessageDialog(null, "Your Order Has Been Added");
-			con.close();
+			OrderController control = new OrderController();
+			if(control.addOrder(Integer.parseInt(order_id.getText()), Integer.parseInt(textField_quantity.getText()), Float.parseFloat(textField_cost.getText()), textField_Location.getText(), Status)) {
+				JOptionPane.showMessageDialog(null, "Your Order Has Been Added");
+			}else {
+				JOptionPane.showMessageDialog(null, "Order Fail To Add");
+			}
+			
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}

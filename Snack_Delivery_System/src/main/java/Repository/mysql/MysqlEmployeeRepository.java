@@ -17,7 +17,7 @@ import Interface.IUpdateEmployee;
 import Item.Employee;
 
 
-//View for Employee
+//Modelfor Employee
 public class MysqlEmployeeRepository implements IAddEmployee, IDelete, ISearchEmployee, IUpdateEmployee, IShowEmployee {
 
 	Connection con;

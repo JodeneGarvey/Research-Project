@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controllers.OrderController;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JLabel;
@@ -247,6 +248,7 @@ public class OrderPage extends JFrame {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/shopdb", "Jodene", "patrice");
 					String status;
@@ -269,6 +271,7 @@ public class OrderPage extends JFrame {
 					OrderList();
 					JOptionPane.showMessageDialog(null, "Record Updated");
 					con.close();
+	
 				}catch(Exception exp) {
 					JOptionPane.showMessageDialog(null, exp);
 				}
