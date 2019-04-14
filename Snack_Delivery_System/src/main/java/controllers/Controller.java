@@ -21,7 +21,7 @@ public class Controller {
 	
 	private volatile static Controller currentController = null;
 	
-	private Controller() {
+	public Controller() {
 		if(currentController != null) {
 			throw new RuntimeException("Some sort of problem with both threads");
 		}
